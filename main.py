@@ -45,7 +45,7 @@ def square_multiply(m, d, n):
     return power
 
 
-def is_prime(n, test_times):
+def is_prime(n, test_times):  #use Miller-Rabin to test whether n is a prime
     if n % 2 == 0:
         return False
     m = (n-1)//2
@@ -75,11 +75,14 @@ def is_prime(n, test_times):
     return True
 
 
-secure_dic = {80: 1024, 112: 2048, 128: 3072, 192: 7680, 256: 15360, 1: 16}
+secure_dic = {80: 1024, 112: 2048, 128: 3072, 192: 7680, 256: 15360}
 
 
 def generate(security_level):
-    modulus = secure_dic[security_level]
+    if security_level in secure_dic.keys():
+        modulus = secure_dic[security_level]
+    else:
+        modulus = 1024
     result = []
     while 1:
         if len(result) < 2:
@@ -110,49 +113,12 @@ def decrypt(c, d, n):
     return square_multiply(c, d, n)
 
 
-def fast_power(base, power, n):
-    result = 1
-    tmp = base
-    while power > 0:
-        if power & 1 == 1:
-            result = (result * tmp) % n
-        tmp = (tmp * tmp) % n
-        power = power >> 1
-    return result
-
-
-# MillerRabin
-def MillerRabin(n, iter_num):
-    # 2 is prime
-    if n == 2:
-        return True
-    # if n is even or less than 2, then n is not a prime
-    if n & 1 == 0 or n < 2:
-        return False
-    # n-1 = (2^s)m
-    m, s = n - 1, 0
-    while m&1 == 0:
-        m = m >> 1
-        s += 1
-    # M-R test
-    for _ in range(iter_num):
-        b = square_multiply(random.randint(2,n-1), m, n)
-        if b == 1 or b == n-1:
-            continue
-        for __ in range(s-1):
-            b = square_multiply(b, 2, n)
-            if b == n-1:
-                break
-        else:
-            return False
-    return True
-
-
 if __name__ == "__main__":
     p, q = generate(128)
     n, e, d = get_keys(p, q)
-    #print(e)
-    plain = 7
+    plain = 5
+    print("The plaintext is "+str(plain))
     c = encrypt(plain, e, n)
+    #print(("The cyphertext  is "+str(c)))
     m = decrypt(c, d, n)
-    print(m)
+    print("The decrypted message is "+str(m))
