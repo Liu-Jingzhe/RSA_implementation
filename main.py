@@ -114,9 +114,9 @@ def decrypt(c, d, n):
 
 
 if __name__ == "__main__":
-    p, q = generate(128)
+    p, q = generate(192)
     n, e, d = get_keys(p, q)
-    plain = 5
+    plain = 11
     print("The plaintext is "+str(plain))
     c = encrypt(plain, e, n)
     #print(("The cyphertext  is "+str(c)))

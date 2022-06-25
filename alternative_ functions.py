@@ -1,3 +1,4 @@
+#Another version of realizations of the two functions
 import random
 
 def fast_power(base, power, n):
