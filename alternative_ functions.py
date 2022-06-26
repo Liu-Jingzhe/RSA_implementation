@@ -37,3 +37,8 @@ def MillerRabin(n, iter_num):
         else:
             return False
     return True
+
+a = 2**9
+b = a % 11
+#print(a)
+print(b)

@@ -94,7 +94,7 @@ def generate(security_level):
             return result[0], result[1]
 
 
-def get_keys(p, q):
+def get_keys(p, q): #get secret keys and public keys
     n = p*q
     euler_n = (p-1)*(q-1)
     while 1:
@@ -113,8 +113,8 @@ def decrypt(c, d, n):
     return square_multiply(c, d, n)
 
 
-if __name__ == "__main__":
-    p, q = generate(192)
+if __name__ == "__main__":  #in the main functions we do test for the above fuctions
+    p, q = generate(80)
     n, e, d = get_keys(p, q)
     plain = 11
     print("The plaintext is "+str(plain))
